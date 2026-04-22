@@ -7,7 +7,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>代理系统</title>
   
-  <script src="https://fastly.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {} }
+    }
+  </script>
   
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
   
@@ -17,35 +22,22 @@
 </head>
 <body class="bg-zinc-50 m-0 p-0 overflow-hidden">
   <div id="root" class="h-screen w-screen flex items-center justify-center text-zinc-400 text-sm">
-    系统正在极速加载中...
+    准备进入系统...
   </div>
 
   <script type="text/babel">
-    const { useState, useMemo, useRef } = React;
+    const { useState, useMemo, useRef, useEffect } = React;
     const { createRoot } = ReactDOM;
 
-    // 自动把图标映射为稳定的 CSS 字体图标
+    // 映射 CSS 图标
     const IconMapping = {
-      Home: 'ri-home-5-line',
-      Map: 'ri-map-2-line',
-      PackagePlus: 'ri-add-box-line',
-      BarChart3: 'ri-bar-chart-box-line',
-      MapPin: 'ri-map-pin-line',
-      Navigation: 'ri-navigation-line',
-      Gift: 'ri-gift-line',
-      Package: 'ri-box-3-line',
-      Calendar: 'ri-calendar-line',
-      CheckCircle2: 'ri-checkbox-circle-line',
-      Store: 'ri-store-2-line',
-      ChevronRight: 'ri-arrow-right-s-line',
-      Plus: 'ri-add-line',
-      Edit: 'ri-edit-line',
-      Trash2: 'ri-delete-bin-line',
-      X: 'ri-close-line',
-      Settings: 'ri-settings-4-line',
-      Download: 'ri-download-line',
-      Upload: 'ri-upload-line',
-      ListOrdered: 'ri-list-ordered-2'
+      Home: 'ri-home-5-line', Map: 'ri-map-2-line', PackagePlus: 'ri-add-box-line',
+      BarChart3: 'ri-bar-chart-box-line', MapPin: 'ri-map-pin-line', Navigation: 'ri-navigation-line',
+      Gift: 'ri-gift-line', Package: 'ri-box-3-line', Calendar: 'ri-calendar-line',
+      CheckCircle2: 'ri-checkbox-circle-line', Store: 'ri-store-2-line', ChevronRight: 'ri-arrow-right-s-line',
+      Plus: 'ri-add-line', Edit: 'ri-edit-line', Trash2: 'ri-delete-bin-line',
+      X: 'ri-close-line', Settings: 'ri-settings-4-line', Download: 'ri-download-line',
+      Upload: 'ri-upload-line', ListOrdered: 'ri-list-ordered-2'
     };
 
     const createIcon = (name) => ({ size = 24, className = "" }) => (
@@ -60,7 +52,6 @@
     const X = createIcon('X'); const Settings = createIcon('Settings'); const Download = createIcon('Download');
     const Upload = createIcon('Upload'); const ListOrdered = createIcon('ListOrdered');
 
-    // --- 以下是您的专属系统核心业务代码 ---
     const INITIAL_SHOPS = [
       { id: 1, name: "老李便利店", address: "幸福路123号", owner: "李老板", phone: "13800000001", distance: "0.8km" },
       { id: 2, name: "张记烟酒店", address: "建设大道45号", owner: "张老板", phone: "13800000002", distance: "1.5km" },
@@ -85,6 +76,11 @@
       const [shops, setShops] = useState(INITIAL_SHOPS);
       const [deliveries, setDeliveries] = useState(generateMockDeliveries());
       const [notification, setNotification] = useState(null);
+
+      // 强行触发布局重绘
+      useEffect(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, [activeTab]);
 
       const showNotification = (msg) => {
         setNotification(msg);
@@ -494,6 +490,7 @@
             {activeTab === 'map' && <MapView />}
             {activeTab === 'deliver' && <DeliverView />}
             {activeTab === 'stats' && <StatsView />}
+            <div className="text-center text-xs text-zinc-300 py-4 font-mono">系统版本: v3.0 终极修复版</div>
           </div>
           <nav className="bg-white border-t border-zinc-200 h-16 flex justify-around shadow-[0_-2px_10px_rgba(0,0,0,0.02)]">
             {navs.map(n => {
