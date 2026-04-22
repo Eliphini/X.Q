@@ -7,29 +7,35 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>代理系统</title>
   
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: { extend: {} }
-    }
-  </script>
-  
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <link href="https://cdn.staticfile.net/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+  <link href="https://fastly.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
   
   <script src="https://cdn.staticfile.net/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdn.staticfile.net/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.staticfile.net/babel-standalone/7.23.10/babel.min.js"></script>
+
+  <style>
+    .text-xxs { font-size: 10px; }
+    .max-h-80vh { max-height: 80vh; }
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    .shadow-top { box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translate(-50%, -20px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+    .animate-fade-in-down { animation: fadeInDown 0.3s ease-out; }
+  </style>
 </head>
-<body class="bg-zinc-50 m-0 p-0 overflow-hidden">
-  <div id="root" class="h-screen w-screen flex items-center justify-center text-zinc-400 text-sm">
-    准备进入系统...
+<body class="bg-gray-50 m-0 p-0 overflow-hidden">
+  <div id="root" class="h-screen w-screen flex items-center justify-center text-gray-400 text-sm">
+    正在进入系统...
   </div>
 
   <script type="text/babel">
-    const { useState, useMemo, useRef, useEffect } = React;
+    const { useState, useMemo, useRef } = React;
     const { createRoot } = ReactDOM;
 
-    // 映射 CSS 图标
+    // 稳定版图标映射
     const IconMapping = {
       Home: 'ri-home-5-line', Map: 'ri-map-2-line', PackagePlus: 'ri-add-box-line',
       BarChart3: 'ri-bar-chart-box-line', MapPin: 'ri-map-pin-line', Navigation: 'ri-navigation-line',
@@ -77,11 +83,6 @@
       const [deliveries, setDeliveries] = useState(generateMockDeliveries());
       const [notification, setNotification] = useState(null);
 
-      // 强行触发布局重绘
-      useEffect(() => {
-        window.dispatchEvent(new Event('resize'));
-      }, [activeTab]);
-
       const showNotification = (msg) => {
         setNotification(msg);
         setTimeout(() => setNotification(null), 2000);
@@ -119,103 +120,103 @@
         return (
           <div className="p-4 pb-20 space-y-6">
             <header className="mb-6">
-              <h1 className="text-2xl font-bold text-zinc-900">X.Q</h1>
-              <p className="text-zinc-500 text-sm mt-1">人生没有白走的路，每一步都算数</p>
+              <h1 className="text-2xl font-bold text-gray-900">X.Q</h1>
+              <p className="text-gray-500 text-sm mt-1">人生没有白走的路，每一步都算数</p>
             </header>
 
-            <div className="bg-zinc-900 rounded-2xl p-5 text-white shadow-lg">
+            <div className="bg-gray-900 rounded-2xl p-5 text-white shadow-lg">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-zinc-400 font-medium">今日铺货概览</span>
-                <span className="bg-zinc-800 px-3 py-1 rounded-full text-xs text-zinc-300 border border-zinc-700">{today}</span>
+                <span className="text-gray-400 font-medium">今日铺货概览</span>
+                <span className="bg-gray-800 px-3 py-1 rounded-full text-xs text-gray-300 border border-gray-700">{today}</span>
               </div>
               <div className="flex justify-between items-end">
                 <div onClick={() => setDetailType('normal')} className="cursor-pointer group">
                   <p className="text-4xl font-bold text-white">{todayNormal} <span className="text-base opacity-70">包</span></p>
-                  <p className="text-zinc-400 text-sm mt-1 flex items-center gap-1">常规销售 <ChevronRight size={14}/></p>
+                  <p className="text-gray-400 text-sm mt-1 flex items-center gap-1">常规销售 <ChevronRight size={14}/></p>
                 </div>
                 <div onClick={() => setDetailType('prize')} className="text-right cursor-pointer group">
-                  <p className="text-2xl font-bold text-stone-300">{todayPrize} <span className="text-sm opacity-70">包</span></p>
-                  <p className="text-zinc-500 text-sm mt-1 flex items-center justify-end gap-1">兑奖回收 <ChevronRight size={14}/></p>
+                  <p className="text-2xl font-bold text-gray-300">{todayPrize} <span className="text-sm opacity-70">包</span></p>
+                  <p className="text-gray-500 text-sm mt-1 flex items-center justify-end gap-1">兑奖回收 <ChevronRight size={14}/></p>
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white p-4 rounded-xl shadow-sm border border-zinc-200 flex flex-col items-center">
-                <div className="bg-slate-100 p-3 rounded-full text-slate-700 mb-2"><Store size={24} /></div>
-                <p className="text-zinc-500 text-sm">已拜访店铺</p>
-                <p className="text-xl font-bold text-zinc-900">{shopsVisited} / {shops.length}</p>
+              <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col items-center">
+                <div className="bg-gray-100 p-3 rounded-full text-gray-700 mb-2"><Store size={24} /></div>
+                <p className="text-gray-500 text-sm">已拜访店铺</p>
+                <p className="text-xl font-bold text-gray-900">{shopsVisited} / {shops.length}</p>
               </div>
-              <div onClick={() => setActiveTab('deliver')} className="bg-white p-4 rounded-xl shadow-sm border border-zinc-200 flex flex-col items-center cursor-pointer">
-                <div className="bg-zinc-100 p-3 rounded-full text-zinc-800 mb-2"><PackagePlus size={24} /></div>
-                <p className="text-zinc-500 text-sm">快捷送货</p>
-                <p className="text-zinc-900 font-bold text-sm mt-1">去登记 &rarr;</p>
+              <div onClick={() => setActiveTab('deliver')} className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col items-center cursor-pointer">
+                <div className="bg-gray-100 p-3 rounded-full text-gray-800 mb-2"><PackagePlus size={24} /></div>
+                <p className="text-gray-500 text-sm">快捷送货</p>
+                <p className="text-gray-900 font-bold text-sm mt-1">去登记 &rarr;</p>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-zinc-200 p-4">
-               <h3 className="font-bold text-zinc-900 mb-3">今日区域动态</h3>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+               <h3 className="font-bold text-gray-900 mb-3">今日区域动态</h3>
                <div className="space-y-3">
                  {todayDeliveries.map(d => {
                    const shop = shops.find(s => s.id === d.shopId);
                    return (
-                     <div key={d.id} className="flex justify-between items-center border-b border-zinc-100 pb-2">
+                     <div key={d.id} className="flex justify-between items-center border-b border-gray-100 pb-2">
                         <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 text-xs font-bold">
+                          <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 text-xs font-bold">
                             {shop?.name ? shop.name.substring(0, 1) : '?'}
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-zinc-900">{shop?.name || '未知店铺'}</p>
-                            <p className="text-xs text-zinc-400">今日已送达</p>
+                            <p className="text-sm font-medium text-gray-900">{shop?.name || '未知店铺'}</p>
+                            <p className="text-xs text-gray-400">今日已送达</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
                           <div className="text-right">
-                            <p className="text-sm font-bold text-zinc-900">+{d.normalPacks}包</p>
-                            {d.prizePacks > 0 && <p className="text-xs text-stone-500">兑 {d.prizePacks}</p>}
+                            <p className="text-sm font-bold text-gray-900">+{d.normalPacks}包</p>
+                            {d.prizePacks > 0 && <p className="text-xs text-gray-500">兑 {d.prizePacks}</p>}
                           </div>
-                          <button onClick={() => handleOpenEdit(d)} className="p-1.5 text-zinc-700 bg-zinc-100 rounded-md"><Edit size={14} /></button>
+                          <button onClick={() => handleOpenEdit(d)} className="p-1.5 text-gray-700 bg-gray-100 rounded-md"><Edit size={14} /></button>
                         </div>
                      </div>
                    )
                  })}
-                 {todayDeliveries.length === 0 && <div className="text-center py-4 text-zinc-400 text-sm">暂无记录</div>}
+                 {todayDeliveries.length === 0 && <div className="text-center py-4 text-gray-400 text-sm">暂无记录</div>}
                </div>
             </div>
 
             {editingRecord && (
-              <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
-                <div className="bg-white rounded-2xl w-full max-w-sm p-5 shadow-2xl border border-zinc-200">
+              <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+                <div className="bg-white rounded-2xl w-full max-w-sm p-5 shadow-2xl border border-gray-200">
                   <div className="flex justify-between items-center mb-5">
                     <h3 className="font-bold text-lg">修改今日送货</h3>
-                    <button onClick={() => setEditingRecord(null)} className="p-1 bg-zinc-100 rounded-full"><X size={18}/></button>
+                    <button onClick={() => setEditingRecord(null)} className="p-1 bg-gray-100 rounded-full"><X size={18}/></button>
                   </div>
                   <form onSubmit={handleSaveEdit} className="space-y-4">
                     <div>
                       <label className="text-sm font-medium mb-1 flex items-center gap-1"><Package size={14}/> 常规送货</label>
-                      <input type="number" value={editForm.normal} onChange={e=>setEditForm({...editForm, normal:e.target.value})} className="w-full bg-white border border-zinc-300 rounded-lg p-3"/>
+                      <input type="number" value={editForm.normal} onChange={e=>setEditForm({...editForm, normal:e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg p-3"/>
                     </div>
                     <div>
                       <label className="text-sm font-medium mb-1 flex items-center gap-1"><Gift size={14}/> 兑奖回收</label>
-                      <input type="number" value={editForm.prize} onChange={e=>setEditForm({...editForm, prize:e.target.value})} className="w-full bg-white border border-zinc-300 rounded-lg p-3"/>
+                      <input type="number" value={editForm.prize} onChange={e=>setEditForm({...editForm, prize:e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg p-3"/>
                     </div>
-                    <button type="submit" className="w-full text-white bg-zinc-900 rounded-xl py-3 mt-2">保存修改</button>
+                    <button type="submit" className="w-full text-white bg-gray-900 rounded-xl py-3 mt-2">保存修改</button>
                   </form>
                 </div>
               </div>
             )}
             {detailType && (
-              <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
-                <div className="bg-white rounded-2xl w-full max-w-sm p-5 shadow-2xl border border-zinc-200 max-h-[80vh] flex flex-col">
+              <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+                <div className="bg-white rounded-2xl w-full max-w-sm p-5 shadow-2xl border border-gray-200 max-h-80vh flex flex-col">
                   <div className="flex justify-between items-center mb-5 shrink-0">
                     <h3 className="font-bold text-lg flex items-center gap-2">
                       {detailType === 'normal' ? '常规销售追源' : '兑奖回收追源'}
                     </h3>
-                    <button onClick={() => setDetailType(null)} className="p-1 bg-zinc-100 rounded-full"><X size={18}/></button>
+                    <button onClick={() => setDetailType(null)} className="p-1 bg-gray-100 rounded-full"><X size={18}/></button>
                   </div>
                   <div className="overflow-y-auto flex-1 space-y-3">
                     {todayDeliveries.filter(d => detailType==='normal'?d.normalPacks>0:d.prizePacks>0).map(d => (
-                      <div key={d.id} className="bg-zinc-50 p-3 rounded-xl flex justify-between items-center border border-zinc-100">
+                      <div key={d.id} className="bg-gray-50 p-3 rounded-xl flex justify-between items-center border border-gray-100">
                         <span className="text-sm font-medium">{shops.find(s=>s.id===d.shopId)?.name}</span>
                         <span className="font-bold">{detailType==='normal'?`+${d.normalPacks}`:d.prizePacks} 包</span>
                       </div>
@@ -247,19 +248,19 @@
 
         if (showForm) {
           return (
-            <div className="h-full flex flex-col pb-20 bg-zinc-50">
-              <header className="p-4 bg-white shadow-sm flex items-center justify-between border-b border-zinc-200">
-                <button onClick={() => setShowForm(false)} className="p-1 bg-zinc-100 rounded-full"><X size={20}/></button>
+            <div className="h-full flex flex-col pb-20 bg-gray-50">
+              <header className="p-4 bg-white shadow-sm flex items-center justify-between border-b border-gray-200">
+                <button onClick={() => setShowForm(false)} className="p-1 bg-gray-100 rounded-full"><X size={20}/></button>
                 <h1 className="text-xl font-bold">{formData.id ? '修改店铺' : '新增店铺'}</h1>
-                <button onClick={handleSaveShop} className="font-bold text-zinc-900">保存</button>
+                <button onClick={handleSaveShop} className="font-bold text-gray-900">保存</button>
               </header>
               <div className="p-4 space-y-4 flex-1 overflow-y-auto">
-                <div className="bg-white p-5 rounded-xl border border-zinc-200 space-y-4">
-                  <input type="text" value={formData.name} onChange={e=>setFormData({...formData, name:e.target.value})} placeholder="店铺名称 *" className="w-full bg-zinc-50 border border-zinc-300 rounded-lg p-3"/>
-                  <input type="text" value={formData.address} onChange={e=>setFormData({...formData, address:e.target.value})} placeholder="详细地址" className="w-full bg-zinc-50 border border-zinc-300 rounded-lg p-3"/>
-                  <input type="text" value={formData.owner} onChange={e=>setFormData({...formData, owner:e.target.value})} placeholder="老板姓名" className="w-full bg-zinc-50 border border-zinc-300 rounded-lg p-3"/>
-                  <input type="tel" value={formData.phone} onChange={e=>setFormData({...formData, phone:e.target.value})} placeholder="联系电话" className="w-full bg-zinc-50 border border-zinc-300 rounded-lg p-3"/>
-                  {formData.id && <button onClick={()=>{setShops(shops.filter(s=>s.id!==formData.id));setShowForm(false);}} className="w-full text-stone-700 bg-stone-100 py-3 rounded-xl mt-4 border border-stone-200 flex items-center justify-center gap-2"><Trash2 size={18}/>删除店铺</button>}
+                <div className="bg-white p-5 rounded-xl border border-gray-200 space-y-4">
+                  <input type="text" value={formData.name} onChange={e=>setFormData({...formData, name:e.target.value})} placeholder="店铺名称 *" className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3"/>
+                  <input type="text" value={formData.address} onChange={e=>setFormData({...formData, address:e.target.value})} placeholder="详细地址" className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3"/>
+                  <input type="text" value={formData.owner} onChange={e=>setFormData({...formData, owner:e.target.value})} placeholder="老板姓名" className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3"/>
+                  <input type="tel" value={formData.phone} onChange={e=>setFormData({...formData, phone:e.target.value})} placeholder="联系电话" className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3"/>
+                  {formData.id && <button onClick={()=>{setShops(shops.filter(s=>s.id!==formData.id));setShowForm(false);}} className="w-full text-gray-700 bg-gray-100 py-3 rounded-xl mt-4 border border-gray-200 flex items-center justify-center gap-2"><Trash2 size={18}/>删除店铺</button>}
                 </div>
               </div>
             </div>
@@ -268,23 +269,23 @@
 
         return (
           <div className="h-full flex flex-col pb-20">
-            <header className="p-4 bg-white shadow-sm border-b border-zinc-200"><h1 className="text-xl font-bold">网点导航</h1></header>
-            <div className="bg-zinc-100 h-48 flex items-center justify-center border-b border-zinc-200"><MapPin size={32} className="text-zinc-800"/></div>
+            <header className="p-4 bg-white shadow-sm border-b border-gray-200"><h1 className="text-xl font-bold">网点导航</h1></header>
+            <div className="bg-gray-100 h-48 flex items-center justify-center border-b border-gray-200"><MapPin size={32} className="text-gray-800"/></div>
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {shops.map(shop => (
-                <div key={shop.id} className="bg-white p-4 rounded-xl border border-zinc-200">
+                <div key={shop.id} className="bg-white p-4 rounded-xl border border-gray-200">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-bold text-lg">{shop.name}</h3>
-                    <button onClick={()=>{setFormData(shop);setShowForm(true);}} className="bg-zinc-100 px-2 py-1 rounded-md text-xs flex items-center gap-1"><Edit size={12}/>编辑</button>
+                    <button onClick={()=>{setFormData(shop);setShowForm(true);}} className="bg-gray-100 px-2 py-1 rounded-md text-xs flex items-center gap-1"><Edit size={12}/>编辑</button>
                   </div>
-                  <p className="text-sm text-zinc-500 mb-2">{shop.address}</p>
+                  <p className="text-sm text-gray-500 mb-2">{shop.address}</p>
                   <div className="flex gap-2">
-                    <button onClick={()=>showNotification(`导航至：${shop.address}`)} className="flex-1 bg-slate-100 text-slate-800 py-2 rounded-lg text-sm flex items-center justify-center gap-1"><Navigation size={16}/>导航</button>
-                    <button onClick={()=>setActiveTab('deliver')} className="flex-1 bg-zinc-900 text-white py-2 rounded-lg text-sm flex items-center justify-center gap-1"><PackagePlus size={16}/>去送货</button>
+                    <button onClick={()=>showNotification(`导航至：${shop.address}`)} className="flex-1 bg-gray-100 text-gray-800 py-2 rounded-lg text-sm flex items-center justify-center gap-1"><Navigation size={16}/>导航</button>
+                    <button onClick={()=>setActiveTab('deliver')} className="flex-1 bg-gray-900 text-white py-2 rounded-lg text-sm flex items-center justify-center gap-1"><PackagePlus size={16}/>去送货</button>
                   </div>
                 </div>
               ))}
-              <button onClick={()=>{setFormData({name:'', address:'', owner:'', phone:''});setShowForm(true);}} className="w-full bg-zinc-50 border-2 border-dashed border-zinc-300 py-4 rounded-xl flex justify-center items-center gap-2 mt-2"><Plus size={20}/>新增店铺</button>
+              <button onClick={()=>{setFormData({name:'', address:'', owner:'', phone:''});setShowForm(true);}} className="w-full bg-gray-50 border-2 border-dashed border-gray-300 py-4 rounded-xl flex justify-center items-center gap-2 mt-2"><Plus size={20}/>新增店铺</button>
             </div>
           </div>
         );
@@ -314,22 +315,22 @@
 
         if (showAddForm) {
           return (
-            <div className="h-full flex flex-col pb-20 bg-zinc-50">
-              <header className="p-4 bg-white shadow-sm flex items-center justify-between border-b border-zinc-200">
-                <button onClick={() => setShowAddForm(false)} className="p-1 bg-zinc-100 rounded-full"><X size={20}/></button>
+            <div className="h-full flex flex-col pb-20 bg-gray-50">
+              <header className="p-4 bg-white shadow-sm flex items-center justify-between border-b border-gray-200">
+                <button onClick={() => setShowAddForm(false)} className="p-1 bg-gray-100 rounded-full"><X size={20}/></button>
                 <h1 className="text-xl font-bold">{editingId ? '修改记录' : '新增送货'}</h1>
                 <div className="w-6"></div>
               </header>
               <div className="flex-1 overflow-y-auto p-4">
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <input type="date" value={form.date} onChange={e=>setForm({...form, date:e.target.value})} className="w-full bg-white border border-zinc-300 rounded-lg p-3"/>
-                  <select value={form.shop} onChange={e=>setForm({...form, shop:e.target.value})} className="w-full bg-white border border-zinc-300 rounded-lg p-3">
+                  <input type="date" value={form.date} onChange={e=>setForm({...form, date:e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg p-3"/>
+                  <select value={form.shop} onChange={e=>setForm({...form, shop:e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg p-3">
                     {shops.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                   </select>
-                  <input type="number" placeholder="常规送货数量" value={form.normal} onChange={e=>setForm({...form, normal:e.target.value})} className="w-full bg-white border border-zinc-300 rounded-lg p-3"/>
-                  <input type="number" placeholder="兑奖回收数量 (选填)" value={form.prize} onChange={e=>setForm({...form, prize:e.target.value})} className="w-full bg-white border border-zinc-300 rounded-lg p-3"/>
-                  <button type="submit" className="w-full text-white bg-zinc-900 rounded-xl py-4 mt-2">确认提交</button>
-                  {editingId && <button type="button" onClick={()=>{setDeliveries(deliveries.filter(d=>d.id!==editingId));setShowAddForm(false);}} className="w-full bg-stone-100 text-stone-700 py-3 rounded-xl border border-stone-200 mt-4">删除记录</button>}
+                  <input type="number" placeholder="常规送货数量" value={form.normal} onChange={e=>setForm({...form, normal:e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg p-3"/>
+                  <input type="number" placeholder="兑奖回收数量 (选填)" value={form.prize} onChange={e=>setForm({...form, prize:e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg p-3"/>
+                  <button type="submit" className="w-full text-white bg-gray-900 rounded-xl py-4 mt-2">确认提交</button>
+                  {editingId && <button type="button" onClick={()=>{setDeliveries(deliveries.filter(d=>d.id!==editingId));setShowAddForm(false);}} className="w-full bg-gray-100 text-gray-700 py-3 rounded-xl border border-gray-200 mt-4">删除记录</button>}
                 </form>
               </div>
             </div>
@@ -338,23 +339,23 @@
 
         return (
           <div className="h-full flex flex-col pb-20">
-            <header className="p-4 bg-white shadow-sm flex justify-between items-center border-b border-zinc-200">
+            <header className="p-4 bg-white shadow-sm flex justify-between items-center border-b border-gray-200">
               <h1 className="text-xl font-bold">送货记录</h1>
-              <button onClick={()=>openForm()} className="bg-zinc-900 text-white p-2 rounded-xl"><Plus size={24}/></button>
+              <button onClick={()=>openForm()} className="bg-gray-900 text-white p-2 rounded-xl"><Plus size={24}/></button>
             </header>
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {deliveries.map(d => (
-                <div key={d.id} className="bg-white p-4 rounded-xl border border-zinc-200">
+                <div key={d.id} className="bg-white p-4 rounded-xl border border-gray-200">
                   <div className="flex justify-between items-center mb-3">
                     <span className="font-bold">{shops.find(s=>s.id===d.shopId)?.name}</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs bg-zinc-100 px-2 py-1 rounded-md">{d.date.split('T')[0]}</span>
-                      <button onClick={()=>openForm(d)} className="bg-zinc-100 p-1.5 rounded-md"><Edit size={12}/></button>
+                      <span className="text-xs bg-gray-100 px-2 py-1 rounded-md">{d.date.split('T')[0]}</span>
+                      <button onClick={()=>openForm(d)} className="bg-gray-100 p-1.5 rounded-md"><Edit size={12}/></button>
                     </div>
                   </div>
                   <div className="flex gap-4">
-                    <div className="flex-1 bg-zinc-50 border border-zinc-100 rounded-lg p-2 text-center"><p className="text-xs text-zinc-600">常规</p><p className="font-bold">{d.normalPacks}</p></div>
-                    <div className="flex-1 bg-stone-50 border border-stone-100 rounded-lg p-2 text-center"><p className="text-xs text-stone-600">兑奖</p><p className="font-bold">{d.prizePacks}</p></div>
+                    <div className="flex-1 bg-gray-50 border border-gray-100 rounded-lg p-2 text-center"><p className="text-xs text-gray-600">常规</p><p className="font-bold">{d.normalPacks}</p></div>
+                    <div className="flex-1 bg-gray-50 border border-gray-100 rounded-lg p-2 text-center"><p className="text-xs text-gray-600">兑奖</p><p className="font-bold">{d.prizePacks}</p></div>
                   </div>
                 </div>
               ))}
@@ -414,65 +415,65 @@
           <div className="p-4 pb-20 h-full flex flex-col">
             <header className="mb-4 flex justify-between items-center">
               <h1 className="text-xl font-bold">业务总结</h1>
-              <button onClick={()=>setShowSettings(true)} className="p-2 bg-zinc-100 rounded-full"><Settings size={20}/></button>
+              <button onClick={()=>setShowSettings(true)} className="p-2 bg-gray-100 rounded-full"><Settings size={20}/></button>
             </header>
             
-            <div className="flex bg-zinc-100 p-1 rounded-lg mb-3">
+            <div className="flex bg-gray-100 p-1 rounded-lg mb-3">
               {['week','month','year'].map(t=><button key={t} onClick={()=>setTimeRange(t)} className={`flex-1 py-2 text-sm rounded-md ${timeRange===t?'bg-white shadow':''}`}>{t==='week'?'周':t==='month'?'月':'年'}总结</button>)}
             </div>
-            <select value={statShopId} onChange={e=>setStatShopId(e.target.value)} className="w-full bg-white border border-zinc-300 rounded-lg p-2.5 mb-6">
+            <select value={statShopId} onChange={e=>setStatShopId(e.target.value)} className="w-full bg-white border border-gray-300 rounded-lg p-2.5 mb-6">
               <option value="all">全区域数据</option>
               {shops.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}
             </select>
 
-            <div className="bg-gradient-to-br from-zinc-800 to-stone-900 rounded-2xl p-5 text-white mb-6">
-              <div className="flex gap-4 divide-x divide-zinc-600">
-                <div onClick={()=>setDetailType('normal')} className="flex-1 cursor-pointer"><p className="text-xs text-zinc-400 mb-1">常规</p><p className="text-3xl font-bold">{stats.n}</p></div>
-                <div onClick={()=>setDetailType('prize')} className="flex-1 pl-4 cursor-pointer"><p className="text-xs text-zinc-400 mb-1">兑奖</p><p className="text-3xl font-bold">{stats.p}</p></div>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-5 text-white mb-6">
+              <div className="flex gap-4 divide-x divide-gray-600">
+                <div onClick={()=>setDetailType('normal')} className="flex-1 cursor-pointer"><p className="text-xs text-gray-400 mb-1">常规</p><p className="text-3xl font-bold">{stats.n}</p></div>
+                <div onClick={()=>setDetailType('prize')} className="flex-1 pl-4 cursor-pointer"><p className="text-xs text-gray-400 mb-1">兑奖</p><p className="text-3xl font-bold">{stats.p}</p></div>
               </div>
-              <div className="mt-4 pt-3 border-t border-zinc-700 text-xs text-zinc-400 cursor-pointer" onClick={()=>setShowAllRecords(true)}>查看 {stats.count} 次送货流水 &rarr;</div>
+              <div className="mt-4 pt-3 border-t border-gray-700 text-xs text-gray-400 cursor-pointer" onClick={()=>setShowAllRecords(true)}>查看 {stats.count} 次送货流水 &rarr;</div>
             </div>
 
             <div className="flex-1 space-y-3">
               {stats.list.map((item, i) => (
-                <div key={i} onClick={()=>setTracedShop(item.shop)} className="bg-white p-3 rounded-xl border border-zinc-200 flex justify-between items-center cursor-pointer">
+                <div key={i} onClick={()=>setTracedShop(item.shop)} className="bg-white p-3 rounded-xl border border-gray-200 flex justify-between items-center cursor-pointer">
                   <span className="font-medium text-sm">{item.shop.name}</span>
-                  <div className="text-xs text-zinc-500"><span className="mr-2">常:{item.normal}</span> <span>兑:{item.prize}</span></div>
+                  <div className="text-xs text-gray-500"><span className="mr-2">常:{item.normal}</span> <span>兑:{item.prize}</span></div>
                 </div>
               ))}
             </div>
 
             {showSettings && (
-               <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
+               <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
                  <div className="bg-white p-5 rounded-2xl w-full max-w-xs space-y-3">
                    <div className="flex justify-between items-center"><h3 className="font-bold">数据管理</h3><X onClick={()=>setShowSettings(false)}/></div>
-                   <button onClick={handleExport} className="w-full bg-zinc-900 text-white py-3 rounded-xl">导出备份 (JSON)</button>
-                   <button onClick={()=>fileRef.current.click()} className="w-full bg-zinc-50 border border-zinc-300 py-3 rounded-xl">导入数据</button>
+                   <button onClick={handleExport} className="w-full bg-gray-900 text-white py-3 rounded-xl">导出备份 (JSON)</button>
+                   <button onClick={()=>fileRef.current.click()} className="w-full bg-gray-50 border border-gray-300 py-3 rounded-xl">导入数据</button>
                    <input type="file" ref={fileRef} onChange={handleImport} className="hidden"/>
                  </div>
                </div>
             )}
             {detailType && (
-               <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
-                 <div className="bg-white p-5 rounded-2xl w-full max-w-xs max-h-[80vh] overflow-auto">
+               <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+                 <div className="bg-white p-5 rounded-2xl w-full max-w-xs max-h-80vh overflow-auto">
                    <div className="flex justify-between items-center mb-4"><h3 className="font-bold">合并汇总</h3><X onClick={()=>setDetailType(null)}/></div>
                    {stats.list.filter(i=>detailType==='normal'?i.normal>0:i.prize>0).map((i,idx)=><div key={idx} className="flex justify-between py-2 border-b"><span>{i.shop.name}</span><span className="font-bold">{detailType==='normal'?i.normal:i.prize}包</span></div>)}
                  </div>
                </div>
             )}
             {tracedShop && (
-               <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
-                 <div className="bg-white p-5 rounded-2xl w-full max-w-xs max-h-[80vh] overflow-auto">
+               <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+                 <div className="bg-white p-5 rounded-2xl w-full max-w-xs max-h-80vh overflow-auto">
                    <div className="flex justify-between items-center mb-4"><h3 className="font-bold">{tracedShop.name} 流水</h3><X onClick={()=>setTracedShop(null)}/></div>
                    {stats.fd.filter(d=>d.shopId===tracedShop.id).map(d=><div key={d.id} className="py-2 border-b text-sm"><span>{d.date.split('T')[0]}</span> <span className="ml-2 font-bold">+{d.normalPacks} 常</span> <span className="ml-2">+{d.prizePacks} 兑</span></div>)}
                  </div>
                </div>
             )}
             {showAllRecords && (
-               <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
-                 <div className="bg-white p-5 rounded-2xl w-full max-w-xs max-h-[80vh] overflow-auto">
+               <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+                 <div className="bg-white p-5 rounded-2xl w-full max-w-xs max-h-80vh overflow-auto">
                    <div className="flex justify-between items-center mb-4"><h3 className="font-bold">所有流水</h3><X onClick={()=>setShowAllRecords(false)}/></div>
-                   {stats.fd.map(d=><div key={d.id} className="py-2 border-b text-sm"><span className="font-medium block">{shops.find(s=>s.id===d.shopId)?.name}</span><div className="text-zinc-500 mt-1"><span>{d.date.split('T')[0]}</span> <span className="ml-2 font-bold text-black">+{d.normalPacks}</span> <span className="ml-2">+{d.prizePacks}</span></div></div>)}
+                   {stats.fd.map(d=><div key={d.id} className="py-2 border-b text-sm"><span className="font-medium block">{shops.find(s=>s.id===d.shopId)?.name}</span><div className="text-gray-500 mt-1"><span>{d.date.split('T')[0]}</span> <span className="ml-2 font-bold text-black">+{d.normalPacks}</span> <span className="ml-2">+{d.prizePacks}</span></div></div>)}
                  </div>
                </div>
             )}
@@ -483,19 +484,19 @@
       const navs = [{id:'home',icon:Home,t:'首页'}, {id:'map',icon:Map,t:'网点'}, {id:'deliver',icon:PackagePlus,t:'送货'}, {id:'stats',icon:BarChart3,t:'统计'}];
 
       return (
-        <div className="max-w-md mx-auto h-full bg-zinc-50 flex flex-col relative font-sans text-zinc-800">
-          {notification && <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 bg-zinc-900 text-white px-4 py-2 rounded-full text-sm shadow-xl">{notification}</div>}
+        <div className="max-w-md mx-auto h-full bg-gray-50 flex flex-col relative font-sans text-gray-800">
+          {notification && <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gray-900 text-white px-4 py-2 rounded-full text-sm shadow-xl">{notification}</div>}
           <div className="flex-1 overflow-y-auto">
             {activeTab === 'home' && <HomeView />}
             {activeTab === 'map' && <MapView />}
             {activeTab === 'deliver' && <DeliverView />}
             {activeTab === 'stats' && <StatsView />}
-            <div className="text-center text-xs text-zinc-300 py-4 font-mono">系统版本: v3.0 终极修复版</div>
+            <div className="text-center text-xs text-gray-400 py-4 font-mono">稳定上线版 v4.0</div>
           </div>
-          <nav className="bg-white border-t border-zinc-200 h-16 flex justify-around shadow-[0_-2px_10px_rgba(0,0,0,0.02)]">
+          <nav className="bg-white border-t border-gray-200 h-16 flex justify-around shadow-top">
             {navs.map(n => {
               const Icon = n.icon;
-              return <button key={n.id} onClick={()=>setActiveTab(n.id)} className={`flex-1 flex flex-col items-center justify-center ${activeTab===n.id?'text-zinc-900':'text-zinc-400'}`}><Icon size={22}/><span className="text-[10px] mt-1">{n.t}</span></button>
+              return <button key={n.id} onClick={()=>setActiveTab(n.id)} className={`flex-1 flex flex-col items-center justify-center ${activeTab===n.id?'text-gray-900':'text-gray-400'}`}><Icon size={22}/><span className="text-xxs mt-1">{n.t}</span></button>
             })}
           </nav>
         </div>
