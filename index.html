@@ -9,27 +9,58 @@
   
   <script src="https://cdn.tailwindcss.com"></script>
   
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  
   <script src="https://cdn.staticfile.net/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdn.staticfile.net/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.staticfile.net/babel-standalone/7.23.10/babel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide-react@0.344.0/dist/umd/lucide-react.js"></script>
 </head>
 <body class="bg-zinc-50 m-0 p-0 overflow-hidden">
-  <div id="root" class="h-screen w-screen flex items-center justify-center text-zinc-400">
-    正在加载系统组件...
+  <div id="root" class="h-screen w-screen flex items-center justify-center text-zinc-400 text-sm">
+    如果看到这段文字，说明您的网络正在连接...
   </div>
 
   <script type="text/babel">
     const { useState, useMemo, useRef } = React;
     const { createRoot } = ReactDOM;
-    const Icons = window.lucideReact;
-    const { 
-      Home, Map, PackagePlus, BarChart3, MapPin, Navigation, 
-      Gift, Package, Calendar, CheckCircle2, Store, ChevronRight, 
-      Plus, Edit, Trash2, X, Settings, Download, Upload, ListOrdered 
-    } = Icons;
 
-    // --- 模拟初始数据 ---
+    // 【防白屏黑科技】：自动把原本的 React 图标全部无缝映射为稳定的 CSS 字体图标
+    const IconMapping = {
+      Home: 'ri-home-5-line',
+      Map: 'ri-map-2-line',
+      PackagePlus: 'ri-add-box-line',
+      BarChart3: 'ri-bar-chart-box-line',
+      MapPin: 'ri-map-pin-line',
+      Navigation: 'ri-navigation-line',
+      Gift: 'ri-gift-line',
+      Package: 'ri-box-3-line',
+      Calendar: 'ri-calendar-line',
+      CheckCircle2: 'ri-checkbox-circle-line',
+      Store: 'ri-store-2-line',
+      ChevronRight: 'ri-arrow-right-s-line',
+      Plus: 'ri-add-line',
+      Edit: 'ri-edit-line',
+      Trash2: 'ri-delete-bin-line',
+      X: 'ri-close-line',
+      Settings: 'ri-settings-4-line',
+      Download: 'ri-download-line',
+      Upload: 'ri-upload-line',
+      ListOrdered: 'ri-list-ordered-2'
+    };
+
+    const createIcon = (name) => ({ size = 24, className = "" }) => (
+      <i className={`${IconMapping[name]} ${className}`} style={{ fontSize: size, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}></i>
+    );
+
+    const Home = createIcon('Home'); const Map = createIcon('Map'); const PackagePlus = createIcon('PackagePlus');
+    const BarChart3 = createIcon('BarChart3'); const MapPin = createIcon('MapPin'); const Navigation = createIcon('Navigation');
+    const Gift = createIcon('Gift'); const Package = createIcon('Package'); const Calendar = createIcon('Calendar');
+    const CheckCircle2 = createIcon('CheckCircle2'); const Store = createIcon('Store'); const ChevronRight = createIcon('ChevronRight');
+    const Plus = createIcon('Plus'); const Edit = createIcon('Edit'); const Trash2 = createIcon('Trash2');
+    const X = createIcon('X'); const Settings = createIcon('Settings'); const Download = createIcon('Download');
+    const Upload = createIcon('Upload'); const ListOrdered = createIcon('ListOrdered');
+
+    // --- 以下是您的专属系统核心业务代码 ---
     const INITIAL_SHOPS = [
       { id: 1, name: "老李便利店", address: "幸福路123号", owner: "李老板", phone: "13800000001", distance: "0.8km" },
       { id: 2, name: "张记烟酒店", address: "建设大道45号", owner: "张老板", phone: "13800000002", distance: "1.5km" },
@@ -134,7 +165,7 @@
                    return (
                      <div key={d.id} className="flex justify-between items-center border-b border-zinc-100 pb-2">
                         <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 text-xs">
+                          <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-600 text-xs font-bold">
                             {shop?.name ? shop.name.substring(0, 1) : '?'}
                           </div>
                           <div>
@@ -224,7 +255,7 @@
               <header className="p-4 bg-white shadow-sm flex items-center justify-between border-b border-zinc-200">
                 <button onClick={() => setShowForm(false)} className="p-1 bg-zinc-100 rounded-full"><X size={20}/></button>
                 <h1 className="text-xl font-bold">{formData.id ? '修改店铺' : '新增店铺'}</h1>
-                <button onClick={handleSaveShop} className="font-bold">保存</button>
+                <button onClick={handleSaveShop} className="font-bold text-zinc-900">保存</button>
               </header>
               <div className="p-4 space-y-4 flex-1 overflow-y-auto">
                 <div className="bg-white p-5 rounded-xl border border-zinc-200 space-y-4">
@@ -232,7 +263,7 @@
                   <input type="text" value={formData.address} onChange={e=>setFormData({...formData, address:e.target.value})} placeholder="详细地址" className="w-full bg-zinc-50 border border-zinc-300 rounded-lg p-3"/>
                   <input type="text" value={formData.owner} onChange={e=>setFormData({...formData, owner:e.target.value})} placeholder="老板姓名" className="w-full bg-zinc-50 border border-zinc-300 rounded-lg p-3"/>
                   <input type="tel" value={formData.phone} onChange={e=>setFormData({...formData, phone:e.target.value})} placeholder="联系电话" className="w-full bg-zinc-50 border border-zinc-300 rounded-lg p-3"/>
-                  {formData.id && <button onClick={()=>{setShops(shops.filter(s=>s.id!==formData.id));setShowForm(false);}} className="w-full text-stone-700 bg-stone-100 py-3 rounded-xl mt-4 border border-stone-200"><Trash2 size={18} className="inline mr-2"/>删除店铺</button>}
+                  {formData.id && <button onClick={()=>{setShops(shops.filter(s=>s.id!==formData.id));setShowForm(false);}} className="w-full text-stone-700 bg-stone-100 py-3 rounded-xl mt-4 border border-stone-200 flex items-center justify-center gap-2"><Trash2 size={18}/>删除店铺</button>}
                 </div>
               </div>
             </div>
@@ -242,7 +273,7 @@
         return (
           <div className="h-full flex flex-col pb-20">
             <header className="p-4 bg-white shadow-sm border-b border-zinc-200"><h1 className="text-xl font-bold">网点导航</h1></header>
-            <div className="bg-zinc-100 h-48 flex items-center justify-center border-b border-zinc-200"><MapPin size={32} className="text-zinc-800 animate-bounce"/></div>
+            <div className="bg-zinc-100 h-48 flex items-center justify-center border-b border-zinc-200"><MapPin size={32} className="text-zinc-800"/></div>
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {shops.map(shop => (
                 <div key={shop.id} className="bg-white p-4 rounded-xl border border-zinc-200">
